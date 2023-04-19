@@ -198,6 +198,9 @@ class Model(object):
         :return:  Returns the stored tensor identifier by the term.
         """
         if len(term.args) > 0 and term.args[0].functor in self.tensor_sources:
+            print(term.args[0].functor)
+            print(term.args[0].args)
+
             return self.tensor_sources[term.args[0].functor][term.args[0].args]
         return self.solver.get_tensor(term)
 

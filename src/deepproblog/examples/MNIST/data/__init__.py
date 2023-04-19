@@ -41,6 +41,7 @@ class MNIST_Images(object):
         self.subset = subset
 
     def __getitem__(self, item):
+        print(type(item[0]))
         return datasets[self.subset][int(item[0])][0]
 
 
@@ -48,20 +49,20 @@ MNIST_train = MNIST_Images("train")
 MNIST_test = MNIST_Images("test")
 
 
-class MNIST(Dataset):
-    def __len__(self):
-        return len(self.data)
-
-    def to_query(self, i):
-        l = Constant(self.data[i][1])
-        return Query(
-            Term("digit", Term("tensor", Term(self.dataset, Term("a"))), l),
-            substitution={Term("a"): Constant(i)},
-        )
-
-    def __init__(self, dataset):
-        self.dataset = dataset
-        self.data = datasets[dataset]
+# class MNIST(Dataset):
+#     def __len__(self):
+#         return len(self.data)
+#
+#     def to_query(self, i):
+#         l = Constant(self.data[i][1])
+#         return Query(
+#             Term("digit", Term("tensor", Term(self.dataset, Term("a"))), l),
+#             substitution={Term("a"): Constant(i)},
+#         )
+#
+#     def __init__(self, dataset):
+#         self.dataset = dataset
+#         self.data = datasets[dataset]
 
 
 def addition(n: int, dataset: str, seed=None):
@@ -77,12 +78,12 @@ def addition(n: int, dataset: str, seed=None):
 
 
 class MNISTOperator(Dataset, TorchDataset):
-    def __getitem__(self, index: int) -> Tuple[list, list, int]:
-        l1, l2 = self.data[index]
-        label = self._get_label(index)
-        l1 = [self.dataset[x][0] for x in l1]
-        l2 = [self.dataset[x][0] for x in l2]
-        return l1, l2, label
+    # def __getitem__(self, index: int) -> Tuple[list, list, int]:
+    #     l1, l2 = self.data[index]
+    #     label = self._get_label(index)
+    #     l1 = [self.dataset[x][0] for x in l1]
+    #     l2 = [self.dataset[x][0] for x in l2]
+    #     return l1, l2, label
 
     def __init__(
         self,
@@ -123,8 +124,8 @@ class MNISTOperator(Dataset, TorchDataset):
             while dataset_iter:
                 self.data.append(
                     [
-                        [next(dataset_iter) for _ in range(self.size)]
-                        for _ in range(self.arity)
+                        [next(dataset_iter) for _ in range(self.size)] #hier pakt hij twee
+                        for _ in range(self.arity)#defineer indices hier maa
                     ]
                 )
         except StopIteration:
