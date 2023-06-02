@@ -59,7 +59,7 @@ class PrologEngine(GenericEngine):
             sp = self.prepare(sp)
         if target is None:
             target = LogicFormula(keep_all=True)
-        proofs = self.get_proofs(term, sp)
+        proofs = self.get_proofs(term, sp, profile=1)
         result = sp.add_proof_trees(proofs, target=target, label=label)
         return result
 
@@ -99,6 +99,7 @@ class PrologEngine(GenericEngine):
             res = program.query(query_str, profile=profile)
         except TimeoutError:
             if self.ignore_timeout:
+                print("timeout")
                 return []
             else:
                 raise TimeoutError()

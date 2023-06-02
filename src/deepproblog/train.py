@@ -46,7 +46,7 @@ class TrainObject(object):
         ]
         for r, q in result:
             total_loss += backpropagate_loss(
-                r, q.p, weight=1 / len(result), q=q.substitute().query
+                r, q.p, weight=1 / len(result), q=None  #q=q.substitute().query
             )
         return total_loss
 

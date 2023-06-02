@@ -106,6 +106,7 @@ class GraphSemiring(Semiring):
                 )
         else:
             p = result[q]
+            #p = list(result.values())[0]
         if type(p) is float:
             loss = (
                 -(target * math.log(p + eps) + (1.0 - target) * math.log(1.0 - p + eps))

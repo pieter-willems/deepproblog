@@ -41,7 +41,6 @@ class MNIST_Images(object):
         self.subset = subset
 
     def __getitem__(self, item):
-        print(type(item[0]))
         return datasets[self.subset][int(item[0])][0]
 
 

@@ -1,8 +1,7 @@
-
 import torch
 from deepproblog.evaluate import get_confusion_matrix
 from deepproblog.dataset import DataLoader
-from deepproblog.Puzzle_solver_v1.dataset import test_dataset, train_dataset
+from deepproblog.puzzle_solver_simple_test.simple_puzzle_dataset_test import test_dataset, train_dataset
 from deepproblog.network import Network
 from deepproblog.utils.standard_networks import smallnet
 from deepproblog.model import Model
@@ -17,7 +16,7 @@ puzzle_net=smallnet(num_classes=9, pretrained=True)
 net = Network(puzzle_net, "puzzle_net", batching=True)
 net.optimizer = torch.optim.Adam(puzzle_net.parameters(), lr=1e-3)
 
-model = Model("puzzle_solver.pl", [net])
+model = Model("puzzle_solver_simple_test.pl", [net])
 
 model.add_tensor_source("train", train_dataset)
 model.add_tensor_source("test", test_dataset)

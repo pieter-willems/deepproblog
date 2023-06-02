@@ -61,7 +61,7 @@ class SmallNet(nn.Module):
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=3, stride=2),
         )
-        self.N = 2304
+        self.N = 6400
         if size is not None:
             inputs = torch.empty(1, 3, *size)
             out = self.features(inputs)
@@ -73,10 +73,18 @@ class SmallNet(nn.Module):
             self.final,
         )
 
+        # self.shortcut = nn.Linear(1200, self.num_classes)
+
     def forward(self, x):
         x = self.features(x)
         x = x.view(-1, self.N)
         x = self.classifier(x)
+
+        # # print(f"1: {x.shape}")
+        # x = x.view(-1, 1200)
+        # # print(f"2: {x.shape}")
+        # x = self.final(self.shortcut(x))
+        # # print(f"3: {x.shape}")
         return x
 
 
