@@ -312,7 +312,7 @@ class SWIProgram(ProbLogObject):
                 query = f"profile({query})"
         result = list(self.prolog.query(query))
         if profile > 0:
-            print(f"Query: {query} answered in {time() - start} seconds")
+            # print(f"Query: {query} answered in {time() - start} seconds")
             if profile > 1:
                 input()
         if result:

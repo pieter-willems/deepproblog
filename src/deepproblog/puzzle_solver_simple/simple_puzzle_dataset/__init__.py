@@ -31,7 +31,7 @@ class shape_dataset(Dataset,TorchDataset):
         return len(self.labels)
     def __getitem__(self,index):
         if type(index) is tuple:
-            index=index[0]
+            index=index[0].value
         img_path= os.path.join(str(path_simple_images), (str(index)+".png"))
 
         with open(img_path,'rb') as f:
