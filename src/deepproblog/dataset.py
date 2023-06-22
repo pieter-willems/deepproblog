@@ -94,7 +94,7 @@ class DataLoader(object):
     __slots__ = ("dataset", "batch_size", "length", "shuffle", "epoch", "rng", "i")
 
     def __init__(
-        self, dataset: Dataset, batch_size: int, shuffle: bool = True, seed=None
+        self, dataset: Dataset, batch_size: int, length=-1, shuffle: bool = True, seed=None
     ):
         """
 
@@ -105,9 +105,12 @@ class DataLoader(object):
         """
         self.dataset = dataset.to_queries()
         self.batch_size = batch_size
-        self.length = len(self.dataset)
+        if length == -1:
+            self.length = len(self.dataset)
+        else:
+            self.length = length
         self.shuffle = shuffle
-        self.dataset = self.dataset[: self.length]
+        self.dataset = self.dataset[:self.length]
         self.epoch = 0
         self.rng = random.Random(seed)
         self._set_iter()

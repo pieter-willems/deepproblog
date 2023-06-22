@@ -115,7 +115,7 @@ class shape_dataset(Dataset,TorchDataset):
                 # img = img.resize((20,20))
                 if self.transform:
                     img=self.transform(img)
-        print(type(img))
+        #print(type(img))
         # print(img.shape)
         return img
 

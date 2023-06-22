@@ -9,7 +9,7 @@ from deepproblog.utils.confusion_matrix import ConfusionMatrix
 
 def get_double_confusion_matrix(
     model: Model, dataset: Dataset, verbose: int = 0, eps: Optional[float] = None
-) -> ConfusionMatrix:
+) -> (ConfusionMatrix, ConfusionMatrix):
     """
 
     :param model: The model to evaluate.
@@ -23,13 +23,18 @@ def get_double_confusion_matrix(
     confusion_matrix1 = ConfusionMatrix()
     confusion_matrix2 = ConfusionMatrix()
     model.eval()
+
+    max_queries = 20
     for i, gt_query in enumerate(dataset.to_queries()):
+        print(f"At i={i}...")
+        if i == max_queries:
+            break
         test_query = gt_query.variable_output()
         answer = model.solve([test_query])[0]
         actual = str(gt_query.output_values()[0])
-        actual2 = str(gt_query.query.args[-2])
+        actual2 = str(gt_query.output_values()[1])
         if len(answer.result) == 0:
-            predicted = "no_answer"
+            predicted, predicted2 = "no_answer", "no_answer"
             if verbose > 1:
                 print("no answer for query {}".format(gt_query))
         else:
@@ -37,12 +42,13 @@ def get_double_confusion_matrix(
             p = answer.result[max_ans]
             if eps is None:
                 predicted = str(max_ans.args[gt_query.output_ind[0]])
-                predicted2= str(max_ans.args[-2])
+                predicted2 = str(max_ans.args[gt_query.output_ind[1]])
             else:
-                predicted = float(max_ans.args[gt_query.output_ind[0]])
-                actual = float(gt_query.output_values()[0])
-                if abs(actual - predicted) < eps:
-                    predicted = actual
+                raise NotImplementedError
+                # predicted = float(max_ans.args[gt_query.output_ind[0]])
+                # actual = float(gt_query.output_values()[0])
+                # if abs(actual - predicted) < eps:
+                #     predicted = actual
             if verbose > 1 and actual != predicted:
                 print(
                     "{} {} vs {}::{} for query {}".format(
@@ -50,8 +56,7 @@ def get_double_confusion_matrix(
                     )
                 )
         confusion_matrix1.add_item(predicted, actual)
-        confusion_matrix2.add_item(predicted2,actual2)
-
+        confusion_matrix2.add_item(predicted2, actual2)
 
     if verbose > 0:
         print(confusion_matrix1)
@@ -60,4 +65,4 @@ def get_double_confusion_matrix(
         print(confusion_matrix2)
         print("Accuracy", confusion_matrix2.accuracy())
 
-    return [confusion_matrix1,confusion_matrix2]
+    return [confusion_matrix1, confusion_matrix2]
