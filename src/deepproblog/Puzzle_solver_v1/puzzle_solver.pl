@@ -1,9 +1,8 @@
 nn(puzzle_net,[X],Y,[triangle,circle,hexagon,pentagon,square,right_triangle,trapeze,rhombus,kite])::shape(X,Y).
 
-same([]).   % You only need this one if you want the empty list to succeed
-same([_]).
-same([X,X|T]) :- same([X|T]).
-
+same([[A,B,C],[A,B,C],[A,B,C]]).
+same([[A,A,A],[A,A,A],[A,A,A]]).
+same([[A,A,A],[B,B,B],[C,C,C]]).
 shifted_right([[A,B,C],[C,A,B],[B,C,A]]).
 shifted_left([[A,B,C],[B,C,A],[C,A,B]]).
 

@@ -45,7 +45,6 @@ class shape_dataset(Dataset,TorchDataset):
         return img
 
     def to_query(self, i: int) -> Query:
-        map_result = {"triangle": 0}
 
         tensor_vars = []
         subs=dict()
@@ -58,7 +57,7 @@ class shape_dataset(Dataset,TorchDataset):
             )
                        )
         tensor_vars.append(t)
-        return Query(Term("solution", *(x for x in tensor_vars), Constant(map_result[self.data[i][1]])), subs)
+        return Query(Term("solution", *(x for x in tensor_vars), Constant(self.data[i][1])), subs)
 
     def to_query2(self, i: int) -> Query:
         """Generate queries"""

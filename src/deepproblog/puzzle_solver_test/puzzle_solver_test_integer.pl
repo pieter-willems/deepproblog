@@ -12,4 +12,4 @@ shapename_int(kite,8).
 
 is_equal(A,A).
 
-solution(TL,S) :- shape(TL,Y), is_equal(Y,S).
+solution(TL,S) :- shape(TL,Y), shapename_int(S,Y).

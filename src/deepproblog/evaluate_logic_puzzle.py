@@ -24,11 +24,9 @@ def get_double_confusion_matrix(
     confusion_matrix2 = ConfusionMatrix()
     model.eval()
 
-    max_queries = 20
+
     for i, gt_query in enumerate(dataset.to_queries()):
         print(f"At i={i}...")
-        if i == max_queries:
-            break
         test_query = gt_query.variable_output()
         answer = model.solve([test_query])[0]
         actual = str(gt_query.output_values()[0])

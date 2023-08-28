@@ -9,13 +9,13 @@ from deepproblog.model import Model
 from deepproblog.engines import ApproximateEngine,ExactEngine
 from deepproblog.train import train_model
 
-batch_size = 5
+batch_size = 25
 loader = DataLoader(train_dataset, batch_size)
 
 
 puzzle_net=smallnet(num_classes=9, pretrained=True)
 net = Network(puzzle_net, "puzzle_net", batching=True)
-net.optimizer = torch.optim.Adam(puzzle_net.parameters(), lr=1e-3)
+net.optimizer = torch.optim.Adam(puzzle_net.parameters(), lr=1e-4)
 
 model = Model("puzzle_solver_simplified.pl", [net])
 
@@ -27,5 +27,5 @@ model.add_tensor_source("test", test_dataset)
 #     )
 model.set_engine(ExactEngine(model), cache=True)
 
-train = train_model(model, loader, 1, log_iter=10, profile=0)
+train = train_model(model, loader, 7, log_iter=1, profile=0)
 print("Accuracy {}".format(get_confusion_matrix(model, test_dataset, verbose=1).accuracy()))

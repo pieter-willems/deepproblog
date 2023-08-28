@@ -3,6 +3,7 @@ nn(puzzle_net,[X],Y,[triangle,circle,hexagon,pentagon,square,right_triangle,trap
 
 same([[A,B],[A,B]]).
 same([[A,A],[A,A]]).
+same([[A,A],[B,B]]).
 shifted([[A,B],[B,A]]).
 
 puzzle(Rows) :- same(Rows).

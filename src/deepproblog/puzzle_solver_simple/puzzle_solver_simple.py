@@ -14,13 +14,13 @@ loader = DataLoader(train_dataset, batch_size)
 
 puzzle_net = smallnet(num_classes=9, pretrained=True)
 net = Network(puzzle_net, "puzzle_net", batching=True)
-net.optimizer = torch.optim.Adam(puzzle_net.parameters(), lr=1e-3)
+net.optimizer = torch.optim.Adam(puzzle_net.parameters(), lr=1e-4)
 
 
 #net.optimizer =torch.optim.SGD(puzzle_net.parameters(), lr=1e-3)
 
 
-model = Model("puzzle_solver_simple.pl", [net])
+model = Model("puzzle_solver_simple_different.pl", [net])
 
 model.add_tensor_source("train", train_dataset)
 model.add_tensor_source("test", test_dataset)

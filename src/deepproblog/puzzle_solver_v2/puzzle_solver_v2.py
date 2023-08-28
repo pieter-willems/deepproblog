@@ -15,12 +15,12 @@ loader = DataLoader(train_dataset, batch_size)
 
 puzzle_net = smallnet(num_classes=9, pretrained=True)
 net = Network(puzzle_net, "puzzle_net", batching=True)
-net.optimizer = torch.optim.Adam(puzzle_net.parameters(), lr=1e-3)
+net.optimizer = torch.optim.Adam(puzzle_net.parameters(), lr=1e-4)
 #net.optimizer =torch.optim.SGD(puzzle_net.parameters(), lr=1e-3)
 
 colour_net=smallnet(num_classes=6, pretrained= True)
 net2 = Network(colour_net, "colour_net",batching=True)
-net2.optimizer = torch.optim.Adam(colour_net.parameters(), lr=1e-3)
+net2.optimizer = torch.optim.Adam(colour_net.parameters(), lr=1e-4)
 
 
 model = Model("puzzle_solver_simplified_v2.pl", [net, net2])
